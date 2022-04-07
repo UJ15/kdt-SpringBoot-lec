@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@ComponentScan (basePackages = {"org.prgrms.kdt.order","org.prgrms.kdt.voucher"})//패키지 범위를 정해줬다.
+@ComponentScan (basePackages = {"org.prgrms.kdt.order","org.prgrms.kdt.voucher"})
 @PropertySource(value = "application.yaml", factory = YamlPropertiesFactory.class) //야믈 설정파일로 잡으려면
 @EnableConfigurationProperties //ComfigurationProperties를 쓸 수 있게
 public class AppConfiguration {

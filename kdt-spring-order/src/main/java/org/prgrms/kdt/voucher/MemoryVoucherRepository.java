@@ -4,6 +4,7 @@ import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Repository;
 
@@ -13,7 +14,7 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Qualifier("memory")
+@Profile("local")
 @Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)//이렇게 하면 같은객체로
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();

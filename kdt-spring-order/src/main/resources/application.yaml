@@ -1,3 +1,9 @@
+server:
+  - dev.bar.com
+  - foo.bar.com
+
+---
+spring.config.activate.on-profile: local
 kdt:
   version: "v1.0"
   minimum-order-amount: 1
@@ -10,3 +16,23 @@ kdt:
     line 1 hello world
     line 2 xxxx
     line 3
+---
+
+spring.config.activate.on-profile: dev
+kdt:
+  version: "v1.0-dev"
+  minimum-order-amount: 1
+  support-vendors:
+    - dev
+    - dev2
+    - dev3
+  description: |-
+    line 1 hello world
+    line 2 xxxx
+    line 3
+
+---
+
+#spring:
+#  profiles:
+#    active: dev
