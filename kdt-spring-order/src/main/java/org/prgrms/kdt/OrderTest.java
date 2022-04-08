@@ -9,6 +9,8 @@ import org.prgrms.kdt.voucher.FixedAmountVoucher;
 import org.prgrms.kdt.voucher.JdbcVoucherRepository;
 import org.prgrms.kdt.voucher.Voucher;
 import org.prgrms.kdt.voucher.VoucherRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.beans.factory.annotation.BeanFactoryAnnotationUtils;
 import org.springframework.context.ApplicationContext;
@@ -27,6 +29,9 @@ import java.util.UUID;
 
 
 public class OrderTest {
+
+    private static final Logger logger = LoggerFactory.getLogger(OrderTest.class);
+
     public static void main(String[] args) throws IOException {
         var applicationContext = new AnnotationConfigApplicationContext();
         applicationContext.register(AppConfiguration.class);
@@ -42,26 +47,16 @@ public class OrderTest {
 //        System.out.println(MessageFormat.format("supportVendors -> {0}", supportVendors));
 //        System.out.println(MessageFormat.format("description -> {0}", description));
         OrderProperties orderProperties = applicationContext.getBean(OrderProperties.class);
-        System.out.println(MessageFormat.format("version {0}", orderProperties.getVersion()));
-        System.out.println(MessageFormat.format("minimumOrderAmount {0}", orderProperties.getMinimumOrderAmount()));
-        System.out.println(MessageFormat.format("supportVendors {0}", orderProperties.getSupportVendors()));
-        System.out.println(MessageFormat.format("description {0}", orderProperties.getDescription()));
+        logger.info("version {}", orderProperties.getVersion());
+        logger.info("minimumOrderAmount {}", orderProperties.getMinimumOrderAmount());
+        logger.info("supportVendors {}", orderProperties.getSupportVendors());
+        logger.info("description {}", orderProperties.getDescription());
 
-
-        var resource = applicationContext.getResource("application.yaml");
-        System.out.println(MessageFormat.format("Resource -> {0}", resource.getClass().getCanonicalName()));
-        var file = resource.getFile();
-        var strings = Files.readAllLines(file.toPath());
-        System.out.println(strings.stream().reduce("", (a, b) -> a + "\n" + b));
 
 
         var customerId = UUID.randomUUID();
         VoucherRepository voucherRepository = applicationContext.getBean(VoucherRepository.class);
         Voucher voucher = voucherRepository.insert(new FixedAmountVoucher(UUID.randomUUID(), 10L));
-
-
-        System.out.println(MessageFormat.format("is JDBC Repo -> {0}", voucherRepository instanceof JdbcVoucherRepository));
-        System.out.println(MessageFormat.format("is JDBC Repo -> {0}", voucherRepository.getClass().getCanonicalName()));
 
         OrderService orderService = applicationContext.getBean(OrderService.class);//정의된 빈을 가져옴
         Order order = orderService.createOrder(customerId, new ArrayList<OrderItem>() {{
