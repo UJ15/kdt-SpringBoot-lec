@@ -14,8 +14,6 @@ import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Repository
-@Profile("local")
-@Scope(value = ConfigurableBeanFactory.SCOPE_SINGLETON)//이렇게 하면 같은객체로
 public class MemoryVoucherRepository implements VoucherRepository {
     private final Map<UUID, Voucher> storage = new ConcurrentHashMap<>();
 

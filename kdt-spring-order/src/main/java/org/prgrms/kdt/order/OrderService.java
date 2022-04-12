@@ -26,6 +26,7 @@ public class OrderService {
         Voucher voucher = voucherService.getVoucher(voucherId);
         Order order =  new Order(UUID.randomUUID(), customerId, orderItems, voucher);
         voucherService.useVoucher(voucher);
-        return orderRepository.insert(order);
+        orderRepository.insert(order);
+        return order;
     }
 }
